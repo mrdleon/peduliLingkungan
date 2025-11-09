@@ -1,0 +1,78 @@
+.detail-container {
+    max-width: 900px;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.report-image {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+.report-image.after {
+    max-height: 400px;
+    border: 2px solid var(--warna-sukses);
+}
+.detail-container h1 {
+    color: var(--warna-utama);
+}
+.status {
+    padding: 1rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 5px;
+    margin: 1rem 0;
+}
+.status-cleaned {
+    background-color: #d1e7dd;
+    color: var(--warna-sukses);
+}
+.status-pending {
+    background-color: #f8d7da;
+    color: var(--warna-bahaya);
+}
+.btn-lapor-bersih {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--warna-aksen);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 5px;
+    margin: 1rem 0;
+    transition: background-color 0.3s ease;
+}
+.btn-lapor-bersih:hover {
+    background-color: #d97a00;
+}
+
+.report-comments {
+    margin-top: 2rem;
+    border-top: 2px solid #eee;
+    padding-top: 2rem;
+}
+.comment-list .comment-item {
+    background-color: var(--warna-latar);
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+.comment-item strong {
+    color: var(--warna-utama);
+    font-size: 1.1rem;
+}
+.comment-item small {
+    float: right;
+    color: #777;
+}
+.comment-item p {
+    margin: 0.5rem 0 0 0;
+}

@@ -1,0 +1,45 @@
+.admin-container {
+    max-width: 1400px;
+}
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.admin-table th, .admin-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    vertical-align: middle;
+}
+.admin-table th {
+    background-color: var(--warna-utama);
+    color: white;
+}
+.admin-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.admin-table img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.action-buttons a {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 2px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.btn-approve {
+    background-color: var(--warna-sukses);
+}
+.btn-reject {
+    background-color: var(--warna-bahaya);
+}

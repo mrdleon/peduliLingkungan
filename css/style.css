@@ -1,0 +1,208 @@
+/* --- Palet Warna (Pilihan A) --- */
+:root {
+    --warna-utama: #40916C; /* Hijau Daun */
+    --warna-aksen: #F48C06; /* Oranye Cerah */
+    --warna-teks: #333333;
+    --warna-latar: #FAFAFA;
+    --warna-putih: #FFFFFF;
+    --warna-bahaya: #E63946;
+    --warna-sukses: #2A9D8F;
+}
+
+/* --- Reset & Font --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'Roboto', sans-serif; /* Gunakan font yg kita bahas */
+    background-color: var(--warna-latar);
+    color: var(--warna-teks);
+    line-height: 1.6;
+}
+
+/* --- Navigasi --- */
+header {
+    background-color: var(--warna-putih);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav .logo a {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--warna-utama);
+    text-decoration: none;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    margin-left: 1.5rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--warna-teks);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--warna-utama);
+}
+
+/* Tombol Lapor di Navigasi */
+nav ul li a.btn-lapor {
+    background-color: var(--warna-aksen);
+    color: var(--warna-putih);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 700;
+}
+nav ul li a.btn-lapor:hover {
+    background-color: #d97a00; /* Oranye lebih gelap */
+}
+
+/* --- Konten Utama --- */
+main {
+    padding: 2rem 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.container h2 {
+    color: var(--warna-utama);
+    margin-bottom: 0.5rem;
+}
+.container p {
+    margin-bottom: 1.5rem;
+}
+
+/* --- Peta --- */
+#map-utama, #map-lapor {
+    height: 500px; /* Tinggi Peta */
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 1rem;
+}
+#map-lapor {
+    height: 400px; /* Peta di form lapor lebih kecil */
+}
+
+/* --- Form (Login, Register, Lapor) --- */
+.form-container {
+    max-width: 600px;
+    background-color: var(--warna-putih);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="file"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--warna-utama);
+    color: var(--warna-putih);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #2c6b4f; /* Hijau lebih gelap */
+}
+
+/* --- Alerts --- */
+.alert {
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+.alert-danger {
+    background-color: #f8d7da;
+    color: var(--warna-bahaya);
+    border: 1px solid #f5c2c7;
+}
+.alert-success {
+    background-color: #d1e7dd;
+    color: var(--warna-sukses);
+    border: 1px solid #badbcc;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 2rem;
+    background-color: #e0e0e0;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+/* --- CSS untuk Navigasi Baru --- */
+.nav-poin {
+    font-weight: 700;
+    color: var(--warna-aksen) !important; /* Warna Oranye Aksen */
+    background-color: #fff8f0;
+    padding: 5px 10px;
+    border-radius: 50px;
+    border: 1px solid var(--warna-aksen);
+}
+
+.nav-admin {
+    font-weight: 700;
+    color: var(--warna-bahaya) !important; /* Warna Merah Bahaya */
+    background-color: #fdebee;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
