@@ -22,12 +22,12 @@ function time_ago($timestamp) {
     else { return ($years==1) ? "1 tahun lalu" : "$years tahun lalu"; }
 }
 
-// --- UPDATE QUERY: Hanya tampilkan 'approved' dan 'pending_clean' ---
-// 'cleaned' tidak ditampilkan sesuai permintaan agar "hilang" setelah di-acc.
-$sql_recent = "SELECT r.*, u.username 
+// --- UPDATE QUERY: Tambah Subquery untuk hitung komentar ---
+$sql_recent = "SELECT r.*, u.username,
+               (SELECT COUNT(*) FROM comments WHERE report_id = r.id) AS jumlah_komentar
                FROM reports r 
                JOIN users u ON r.user_id = u.id 
-               WHERE r.status = 'approved' OR r.status = 'pending_clean'
+               WHERE r.status IN ('approved', 'pending_clean')
                ORDER BY r.tgl_lapor DESC 
                LIMIT 5";
 $result_recent = mysqli_query($conn, $sql_recent);
@@ -130,14 +130,14 @@ $result_recent = mysqli_query($conn, $sql_recent);
                              $status_badge = '<span class="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-500">Menunggu Tindakan</span>';
                         }
 
-                        $lokasi_display = !empty($row['catatan']) ? htmlspecialchars(substr($row['catatan'], 0, 40)) . (strlen($row['catatan']) > 40 ? '...' : '') : 'Lokasi Koordinat';
+                        $lokasi_display = !empty($row['catatan']) ? htmlspecialchars(substr($row['catatan'], 0, 60)) . (strlen($row['catatan']) > 60 ? '...' : '') : 'Lokasi di Peta';
                     ?>
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
                             <div class="flex-1">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <i class="fa-solid fa-map-pin text-primary"></i>
-                                    <h3 class="font-heading font-semibold text-lg text-slate-800"><?php echo $lokasi_display; ?></h3>
+                                <div class="flex items-start gap-3 mb-3">
+                                    <i class="fa-solid fa-map-pin text-primary mt-1"></i>
+                                    <h3 class="font-heading font-semibold text-lg text-slate-800 line-clamp-1"><?php echo $lokasi_display; ?></h3>
                                 </div>
                                 <div class="flex flex-wrap items-center gap-3 text-sm">
                                     <span class="px-3 py-1 rounded-full font-medium <?php echo $severity_bg; ?>"><?php echo $row['tingkat_keparahan']; ?></span>
@@ -148,8 +148,15 @@ $result_recent = mysqli_query($conn, $sql_recent);
                                     <span class="font-medium text-primary"><?php echo htmlspecialchars($row['username']); ?></span>
                                 </div>
                             </div>
+                            
                             <div class="flex items-center justify-between md:justify-end gap-4 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100">
                                 <?php echo $status_badge; ?>
+                                
+                                <a href="detail_laporan.php?id=<?php echo $row['id']; ?>#komentar" class="flex items-center gap-1 text-slate-500 hover:text-primary transition-colors text-sm font-medium" title="Lihat Komentar">
+                                    <i class="fa-regular fa-comment-dots text-lg"></i>
+                                    <span><?php echo $row['jumlah_komentar']; ?></span>
+                                </a>
+
                                 <a href="detail_laporan.php?id=<?php echo $row['id']; ?>" class="px-5 py-2 rounded-xl bg-slate-50 text-sm font-bold text-slate-700 hover:bg-primary hover:text-white transition-all">
                                     Detail
                                 </a>
@@ -176,12 +183,10 @@ $result_recent = mysqli_query($conn, $sql_recent);
     var ikonSampah = L.icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png', shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] });
     var ikonBersih = L.icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png', shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] });
 
-    // Tampilkan SEMUA pin di peta (Approved, Cleaned, Pending Clean)
     fetch('get_reports.php')
         .then(response => response.json())
         .then(reports => {
             reports.forEach(report => {
-                // Jika status cleaned -> Hijau. Jika approved atau pending_clean -> Merah (masih dianggap kotor sampai di-acc admin)
                 var ikon = (report.status === 'cleaned') ? ikonBersih : ikonSampah;
                 var statusText = (report.status === 'cleaned') ? 
                     '<span class="text-emerald-600 font-bold">SUDAH BERSIH</span>' : 
@@ -191,7 +196,7 @@ $result_recent = mysqli_query($conn, $sql_recent);
                     <div class="min-w-[200px]">
                         <img src="uploads/${report.foto}" class="w-full h-32 object-cover rounded-lg mb-2">
                         <div class="mb-2 text-xs">${statusText}</div>
-                        <h4 class="font-bold text-slate-800">${report.jenis_sampah}</h4>
+                        <h4 class="font-bold text-slate-800 line-clamp-2">${report.catatan || report.jenis_sampah}</h4>
                         <a href="detail_laporan.php?id=${report.id}" class="block mt-3 text-center bg-primary text-white py-1.5 rounded-md text-sm font-medium">Lihat Detail</a>
                     </div>
                 `;

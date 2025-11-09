@@ -58,7 +58,7 @@
             <div class="hidden md:flex items-center gap-8">
                 <a href="<?php echo BASE_URL; ?>index.php" class="font-medium text-slate-600 hover:text-primary transition-colors">Beranda</a>
                 <a href="<?php echo BASE_URL; ?>index.php#peta" class="font-medium text-slate-600 hover:text-primary transition-colors">Peta</a>
-                <span class="font-medium text-slate-400 cursor-not-allowed" title="Segera Hadir">Leaderboard</span>
+                <a href="<?php echo BASE_URL; ?>leaderboard.php" class="font-medium text-slate-600 hover:text-primary transition-colors">Leaderboard</a>
             </div>
 
             <div class="flex items-center gap-4">
