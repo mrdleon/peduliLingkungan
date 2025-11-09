@@ -1,122 +1,66 @@
-/* --- Palet Warna (Pilihan A) --- */
+/* --- Palet Warna (Pilihan A - Dipertahankan untuk konsistensi halaman lama) --- */
 :root {
-    --warna-utama: #40916C; /* Hijau Daun */
-    --warna-aksen: #F48C06; /* Oranye Cerah */
+    --warna-utama: #40916C;
+    --warna-aksen: #F48C06;
     --warna-teks: #333333;
-    --warna-latar: #FAFAFA;
+    --warna-latar: #F8F9FA; /* Sedikit disesuaikan agar mirip Tailwind bg-slate-50 */
     --warna-putih: #FFFFFF;
     --warna-bahaya: #E63946;
     --warna-sukses: #2A9D8F;
 }
 
-/* --- Reset & Font --- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* --- Reset Dasar (Dikurangi karena Tailwind punya preflight sendiri) --- */
+/* Halaman yang pakai Tailwind akan mengabaikan ini, halaman lama akan memakainya */
 body {
-    font-family: 'Poppins', 'Roboto', sans-serif; /* Gunakan font yg kita bahas */
+    /* Font family sudah diatur di Tailwind, tapi kita simpan sebagai fallback */
+    font-family: 'Inter', 'Roboto', sans-serif;
     background-color: var(--warna-latar);
     color: var(--warna-teks);
     line-height: 1.6;
+    margin: 0; /* Penting untuk halaman non-Tailwind */
 }
 
-/* --- Navigasi --- */
-header {
-    background-color: var(--warna-putih);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 1rem 0;
-}
+/* --- Navigasi Lama (DIHAPUS) --- */
+/* Bagian header, nav, nav ul, dll SUDAH DIGANTIKAN OLEH TAILWIND DI HEADER.PHP */
 
-nav {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-nav .logo a {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--warna-utama);
-    text-decoration: none;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    align-items: center;
-}
-
-nav ul li {
-    margin-left: 1.5rem;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: var(--warna-teks);
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-nav ul li a:hover {
-    color: var(--warna-utama);
-}
-
-/* Tombol Lapor di Navigasi */
-nav ul li a.btn-lapor {
-    background-color: var(--warna-aksen);
-    color: var(--warna-putih);
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-    font-weight: 700;
-}
-nav ul li a.btn-lapor:hover {
-    background-color: #d97a00; /* Oranye lebih gelap */
-}
-
-/* --- Konten Utama --- */
-main {
-    padding: 2rem 0;
-}
-
+/* --- Konten Utama & Container --- */
+/* Container lama untuk halaman seperti Login/Register/Lapor */
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 2rem 1rem; /* Tambah padding atas agar tidak nempel navbar baru */
 }
 
-.container h2 {
-    color: var(--warna-utama);
-    margin-bottom: 0.5rem;
-}
-.container p {
-    margin-bottom: 1.5rem;
-}
-
-/* --- Peta --- */
+/* --- Peta (Leaflet) --- */
+/* Style ini tetap dibutuhkan untuk peta di halaman Lapor & Admin */
 #map-utama, #map-lapor {
-    height: 500px; /* Tinggi Peta */
+    height: 500px;
     width: 100%;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    margin-bottom: 1rem;
+    border-radius: 12px; /* Lebih bulat agar modern */
+    border: 2px solid #e5e7eb; /* Warna border lebih halus (mirip slate-200) */
+    margin-bottom: 1.5rem;
+    z-index: 1; /* Agar tidak menutupi dropdown navbar */
 }
 #map-lapor {
-    height: 400px; /* Peta di form lapor lebih kecil */
+    height: 400px;
 }
 
-/* --- Form (Login, Register, Lapor) --- */
+/* --- Form (Login, Register, Lapor) - DIPERBARUI AGAR LEBIH MODERN --- */
 .form-container {
-    max-width: 600px;
+    max-width: 500px;
     background-color: var(--warna-putih);
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    padding: 2.5rem;
+    border-radius: 16px; /* Sudut lebih bulat */
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Shadow ala Tailwind 'shadow-xl' */
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-container h2 {
+    color: var(--warna-utama);
+    margin-bottom: 1rem;
+    font-weight: 700;
+    text-align: center; /* Judul form di tengah */
 }
 
 .form-group {
@@ -127,6 +71,7 @@ main {
     display: block;
     font-weight: 600;
     margin-bottom: 0.5rem;
+    color: #4b5563; /* Warna teks label agak abu (slate-600) */
 }
 
 .form-group input[type="text"],
@@ -136,73 +81,69 @@ main {
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db; /* Border abu terang (gray-300) */
+    border-radius: 8px;
     font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--warna-utama);
+    box-shadow: 0 0 0 3px rgba(64, 145, 108, 0.2); /* Efek focus ring modern */
+}
+
+/* --- Tombol (Buttons) - DIPERBARUI --- */
 .btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Tombol form full width secara default */
     background-color: var(--warna-utama);
     color: var(--warna-putih);
     padding: 0.75rem 1.5rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px; /* Tombol bulat penuh (pill shape) */
     cursor: pointer;
     font-size: 1rem;
     font-weight: 600;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .btn:hover {
-    background-color: #2c6b4f; /* Hijau lebih gelap */
+    background-color: #2D6A4F; /* Warna hover lebih gelap */
+    transform: translateY(-2px); /* Efek naik sedikit saat hover */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 /* --- Alerts --- */
 .alert {
-    padding: 1rem;
-    border-radius: 5px;
-    margin-bottom: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
     font-weight: 500;
+    display: flex;
+    align-items: center;
 }
 .alert-danger {
-    background-color: #f8d7da;
-    color: var(--warna-bahaya);
-    border: 1px solid #f5c2c7;
+    background-color: #FEF2F2; /* Merah sangat muda (red-50) */
+    color: #991B1B; /* Merah tua (red-800) */
+    border: 1px solid #FEE2E2;
 }
 .alert-success {
-    background-color: #d1e7dd;
-    color: var(--warna-sukses);
-    border: 1px solid #badbcc;
+    background-color: #ECFDF5; /* Hijau sangat muda (emerald-50) */
+    color: #065F46; /* Hijau tua (emerald-800) */
+    border: 1px solid #D1FAE5;
 }
 
-/* --- Footer --- */
-footer {
-    text-align: center;
-    padding: 2rem 0;
-    margin-top: 2rem;
-    background-color: #e0e0e0;
-    color: #555;
-    font-size: 0.9rem;
-}
+/* --- Footer Lama (DIHAPUS) --- */
+/* SUDAH DIGANTIKAN OLEH TAILWIND DI FOOTER.PHP */
 
-/* --- CSS untuk Navigasi Baru --- */
-.nav-poin {
-    font-weight: 700;
-    color: var(--warna-aksen) !important; /* Warna Oranye Aksen */
-    background-color: #fff8f0;
-    padding: 5px 10px;
-    border-radius: 50px;
-    border: 1px solid var(--warna-aksen);
-}
-
-.nav-admin {
-    font-weight: 700;
-    color: var(--warna-bahaya) !important; /* Warna Merah Bahaya */
-    background-color: #fdebee;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
+/* --- Utilitas Kecil untuk Halaman Lama --- */
+.text-center { text-align: center; }
+.mt-3 { margin-top: 1rem; }
+.mb-3 { margin-bottom: 1rem; }

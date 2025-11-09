@@ -1,13 +1,12 @@
 <?php
-// ... (kode config.php) ...
 require_once 'config.php';
 
-// Ambil laporan yang sudah disetujui atau sudah dibersihkan
+// Ambil laporan yang approved, cleaned, ATAU pending_clean
 $sql = "SELECT r.id, r.latitude, r.longitude, r.jenis_sampah, r.foto, 
                r.catatan, r.tgl_lapor, r.status, u.username 
         FROM reports r
         JOIN users u ON r.user_id = u.id
-        WHERE r.status = 'approved' OR r.status = 'cleaned'
+        WHERE r.status IN ('approved', 'cleaned', 'pending_clean')
         ORDER BY r.tgl_lapor DESC";
 
 $result = mysqli_query($conn, $sql);
