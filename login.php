@@ -2,7 +2,30 @@
 require_once 'config.php';
 $error = '';
 
-// Jika sudah login, redirect ke index
+// Cek Cookie dulu (Logic tambahan untuk Auto-Login di halaman login)
+if (isset($_COOKIE['id']) && isset($_COOKIE['key'])) {
+    $id = $_COOKIE['id'];
+    $key = $_COOKIE['key'];
+
+    // Ambil username berdasarkan id
+    $sql = "SELECT username, role, poin FROM users WHERE id = ?";
+    if ($stmt = mysqli_prepare($conn, $sql)) {
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+
+        // Cek kecocokan cookie key dengan username yang di-hash
+        if ($key === hash('sha256', $row['username'])) {
+            $_SESSION['user_id'] = $id;
+            $_SESSION['username'] = $row['username'];
+            $_SESSION['role'] = $row['role'];
+            $_SESSION['poin'] = $row['poin'];
+        }
+    }
+}
+
+// Jika sudah login (baik dari session atau cookie barusan), redirect ke index
 if (isset($_SESSION['user_id'])) {
     header("location: index.php");
     exit;
@@ -25,11 +48,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (mysqli_stmt_fetch($stmt)) {
                     // Verifikasi password
                     if (password_verify($password, $hashed_password)) {
-                        // Password benar! Mulai session
+                        // 1. Buat Session
                         $_SESSION['user_id'] = $id;
                         $_SESSION['username'] = $username_db;
                         $_SESSION['role'] = $role;
                         $_SESSION['poin'] = $poin;
+
+                        // 2. Cek Remember Me (Cookie)
+                        if (isset($_POST['remember'])) {
+                            // Buat Cookie berlalu 1 minggu (time() + 604800 detik)
+                            // Kita simpan ID dan Hash Username (biar agak aman)
+                            setcookie('id', $id, time() + 604800, "/");
+                            setcookie('key', hash('sha256', $username_db), time() + 604800, "/");
+                        }
 
                         header("location: index.php");
                         exit;
@@ -99,6 +130,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <input id="password" name="password" type="password" required class="appearance-none relative block w-full pl-10 pr-3 py-3 border border-slate-300 placeholder-slate-400 text-slate-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent sm:text-sm transition-all" placeholder="Password">
                     </div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input id="remember" name="remember" type="checkbox" class="h-4 w-4 text-accent focus:ring-accent border-slate-300 rounded cursor-pointer">
+                    <label for="remember" class="ml-2 block text-sm text-slate-600 cursor-pointer">
+                        Ingat Saya
+                    </label>
                 </div>
             </div>
 
